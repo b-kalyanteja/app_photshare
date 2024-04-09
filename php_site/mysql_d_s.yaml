@@ -29,7 +29,7 @@ spec:
         - name: db-volume
           mountPath: /var/lib/mysql
       volumes:
-      - name: db-volumne
+      - name: db-volume
         persistentVolumeClaim:
           claimName: db-volume-claim
 ---
@@ -43,4 +43,4 @@ spec:
   selector:
     app: mysql
 
-  # use "kubectl apply -f db_storage.yaml"
+  # use "kubectl apply -f mysql_d_s.yaml"
