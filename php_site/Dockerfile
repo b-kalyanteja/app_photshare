@@ -1,14 +1,11 @@
-# Use the official PHP image from Docker Hub
-FROM php:latest
+# Use PHP Apache image
+FROM php:apache
 
-# Set the working directory inside the container
-WORKDIR /var/www/html
+# Copy all files from root folder into the container
+COPY . /var/www/html/
 
-# Copy the contents of your local directory into the container
-COPY . .
-
-# Expose port 80 to allow incoming traffic
+# Expose port 80
 EXPOSE 80
 
-# Start PHP's built-in web server
-CMD ["php", "-S", "0.0.0.0:80"]
+# Start Apache service
+CMD ["apache2-foreground"]
