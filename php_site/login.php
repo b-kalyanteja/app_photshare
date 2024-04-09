@@ -2,27 +2,42 @@
 session_start();
 
 // Include database connection
-require_once 'db.php';
+require_once 'db.php'; // Make sure this file contains your database connection code
 
-// Check if form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['email'], $_POST['password'])) {
+    // Retrieve form data
+    $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Query to check user credentials
-    $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
+    // Construct the SQL query string with the email value
+    $query = "SELECT * FROM userinfo WHERE Email = '$email' LIMIT 1";
+
+    // Execute the query
     $result = mysqli_query($conn, $query);
 
-    if (mysqli_num_rows($result) == 1) {
-        // Authentication successful, redirect to user home page
-        $_SESSION['username'] = $username;
-        header("Location: user_home.php");
-        exit();
+    // Check if the query executed successfully
+    if ($result && $user = mysqli_fetch_assoc($result)) {
+        // User found, verify password
+        if (password_verify($password, $user['Password'])) {
+            // Password is correct, set session variables
+            $_SESSION['email'] = $user['Email'];
+            // Redirect to user home page
+            header("Location: user_home.php");
+            exit();
+        } else {
+            // Invalid password
+            header("Location: login.php?error=invalid_password");
+            exit();
+        }
     } else {
-        // Authentication failed, redirect back to login page with error message
-        $_SESSION['error'] = "Invalid username or password";
-        header("Location: index.php");
+        // User not found or error occurred
+        header("Location: login.php?error=user_not_found");
         exit();
     }
+} else {
+    // Handle error - form not submitted or email/password not provided
+    header("Location: login.php?error=form_not_submitted");
+    exit();
 }
 ?>

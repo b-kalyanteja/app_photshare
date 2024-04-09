@@ -2,38 +2,39 @@
 session_start();
 
 // Check if user is logged in, if not redirect to login page
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['email'])) {
     header("Location: index.php");
     exit();
 }
 
 // Include database connection
-require_once 'db.php';
+require_once 'db.php'; // Make sure this file contains your database connection code
 
-// Fetch user details from database
-$username = $_SESSION['username'];
-$query = "SELECT * FROM users WHERE username='$username'";
-$result = mysqli_query($conn, $query);
+// Fetch user details from database using email
+$email = $_SESSION['email'];
+$query = "SELECT * FROM userinfo WHERE Email=?";
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_bind_param($stmt, "s", $email);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 $user = mysqli_fetch_assoc($result);
 
-
-
-// Fetch weather data from API
-$weather_api_url = "YOUR_WEATHER_API_URL"; // Replace with your actual weather API URL
-$weather_data = @file_get_contents($weather_api_url); // Use @ to suppress errors
-if ($weather_data === false) {
-    $temperature = "N/A"; // Set temperature to N/A if API request fails
-} else {
-    $weather = json_decode($weather_data, true);
-    if ($weather && isset($weather['temperature'])) {
-        $temperature = $weather['temperature'];
+// Handle about information update
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $about = htmlspecialchars($_POST['about']); // Sanitize input
+    $update_query = "UPDATE userinfo SET About=? WHERE Email=?";
+    $stmt = mysqli_prepare($conn, $update_query);
+    mysqli_stmt_bind_param($stmt, "ss", $about, $email);
+    if (mysqli_stmt_execute($stmt)) {
+        // About information updated successfully
+        header("Location: user_home.php");
+        exit();
     } else {
-        $temperature = "N/A"; // Set temperature to N/A if API returns invalid data
+        // Handle error - About information update failed
+        echo "Error updating about information: " . mysqli_error($conn);
     }
 }
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,20 +48,33 @@ if ($weather_data === false) {
 </head>
 <body>
     <div class="container">
-        <h2>Welcome, <?php echo $user['username']; ?></h2>
-        <!-- You might need to adjust the path to the profile picture -->
-        <img src="profile_picture.php" alt="Profile Picture" width="200" height="200">
-        <p>Temperature: <?php echo $temperature; ?>°C</p>
-        <!-- Add search functionality here -->
-        <div class="search-box">
-            <!-- Add search functionality here -->
+        <h2>Welcome, <?php echo htmlspecialchars($user['Name']); ?></h2>
+        <div class="about-section">
+            <h3>About Me</h3>
+            <?php if (empty($user['About'])): ?>
+                <p>No information available. Click the button to add about information.</p>
+            <?php else: ?>
+                <p><?php echo htmlspecialchars($user['About']); ?></p>
+            <?php endif; ?>
+            <button onclick="showEditForm()">Edit</button>
+            <!-- Edit form (hidden by default) -->
+            <form id="editForm" method="post" style="display: none;">
+                <textarea name="about" rows="4" cols="50"><?php echo htmlspecialchars($user['About']); ?></textarea><br>
+                <input type="submit" value="Save">
+                <button type="button" onclick="hideEditForm()">Cancel</button>
+            </form>
         </div>
         <a href="logout.php">Logout</a>
     </div>
-    </div>
-    <!-- Logout Button -->
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="logout.php">Logout</a>
-    </div>
+
+    <script>
+        function showEditForm() {
+            document.getElementById("editForm").style.display = "block";
+        }
+
+        function hideEditForm() {
+            document.getElementById("editForm").style.display = "none";
+        }
+    </script>
 </body>
 </html>

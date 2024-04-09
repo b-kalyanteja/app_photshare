@@ -23,8 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // SQL query to insert user data into the database
-    $query = "INSERT INTO userinfo (name, email, password, gender, dob) VALUES ('$name', '$email', '$hashed_password', '$gender', '$dob')";
-
+    $query = "INSERT INTO userinfo (Name, Email, Password, Gender, DateOfBirth) VALUES ('$name', '$email', '$hashed_password', '$gender', '$dob')";
     if (mysqli_query($conn, $query)) {
         // Registration successful
         // Redirect to a success page or user home page
