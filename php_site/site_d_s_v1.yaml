@@ -1,0 +1,33 @@
+apiVersion: apps/v1 # for deploying directly or using CI/CD pipelines
+kind: Deployment
+metadata:
+  name: socialmedia
+spec:
+  replicas: 1  # Number of desired pods
+  selector:
+    matchLabels:
+      app: socialmedia
+  template:
+    metadata:
+      labels:
+        app: socialmedia
+    spec:
+      containers:
+      - name: socialmedia
+        image: bullakalyanacr.azurecr.io/socialmedia:latest   # ACR image
+        ports:
+        - containerPort: 80  # Port your application listens on
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: socialmedia
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: socialmedia
+
+  # kubectl apply -f phpsite_d_s.yaml
