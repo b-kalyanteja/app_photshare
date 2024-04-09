@@ -1,9 +1,9 @@
 <?php
 // MySQL database credentials from Azure MYSQL in rg cloud_kalyan
-$host = "10.0.42.149"; // MySQL service name in Kubernetes
+$host = "172.212.40.210"; // MySQL service name in Kubernetes
 $username = "root"; 
 $password = "Alpha@123";
-$database = "userinfo";
+$database = "site";
 $port = 3306; // Default MySQL port
 
 // Create connection
