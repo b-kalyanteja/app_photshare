@@ -15,9 +15,5 @@ if ($conn->connect_error) {
 }
 
 
-// MySQL database credentials - currently using Azure Mysql
-// server nasme : socailmediav1
-// user : kalyanteja
-// password : Madras@1900
 
 ?> 
