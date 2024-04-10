@@ -44,6 +44,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>User Home</title>
     <style>
         /* Add your own CSS for styling */
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .about-section {
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        a {
+            display: block;
+            margin-top: 20px;
+            color: #007bff;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -64,6 +93,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button type="button" onclick="hideEditForm()">Cancel</button>
             </form>
         </div>
+        <form action="search_list.php" method="GET">
+            <input type="text" name="search" placeholder="Enter name">
+            <button type="submit">Search</button>
+        </form>
         <a href="logout.php">Logout</a>
     </div>
 
