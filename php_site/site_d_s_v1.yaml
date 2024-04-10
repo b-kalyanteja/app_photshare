@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: socialmedia
-        image: bullakalyanacr.azurecr.io/socialmedia:latest   # ACR image
+        image: bullakalyanacr.azurecr.io/socialmedia:latest   # ACR image buildin CI
         ports:
         - containerPort: 80  # Port your application listens on
 

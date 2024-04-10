@@ -26,9 +26,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $query = "INSERT INTO userinfo (Name, Email, Password, Gender, DateOfBirth) VALUES ('$name', '$email', '$hashed_password', '$gender', '$dob')";
     if (mysqli_query($conn, $query)) {
         // Registration successful
-        // Redirect to a success page or user home page
-        header("Location: user_home.php");
-        exit();
+
+        // SQL query to create a new table for user's friends, requests, and messages
+        $create_table_query = "CREATE TABLE $email (
+            email VARCHAR(255) PRIMARY KEY,
+            friends TEXT,
+            requests TEXT,
+            messages TEXT
+        )";
+        if (mysqli_query($conn, $create_table_query)) {
+            // Table creation successful
+            // Redirect to a success page or user home page
+            header("Location: user_home.php");
+            exit();
+        } else {
+            // Handle error - table creation failed
+            // For simplicity, you can redirect back to the registration page with an error message
+            header("Location: register.php?error=table_creation_failed");
+            exit();
+        }
     } else {
         // Handle error - registration failed
         // For simplicity, you can redirect back to the registration page with an error message
