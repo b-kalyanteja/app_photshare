@@ -78,6 +78,7 @@
         </form>
     </div>
     <a href="register.php">Register</a>
+    <a href="abc.php">sample-abc</a>
     <div class="new">
         <!-- Additional content can be added here -->
     </div>
