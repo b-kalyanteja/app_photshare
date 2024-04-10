@@ -87,7 +87,7 @@
 <body>
     <div class="container">
         <img src="/images/logo.png" alt="Logo" width="250" height="250">
-        <h2>Login</h2>
+        <h2>Sign in</h2>
         <form action="login.php" method="post">
             <label for="email">Email:</label><br>
             <input type="text" id="email" name="email" required><br> <!-- Corrected attribute -->
