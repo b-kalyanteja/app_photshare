@@ -1,6 +1,13 @@
 <?php
 session_start();
 
+// Check if user is not logged in, redirect to login page
+if (!isset($_SESSION['email'])) {
+    header("Location: index.php");
+    exit();
+}
+
+
 // Include database connection
 require_once 'db.php';
 
