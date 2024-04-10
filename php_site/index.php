@@ -13,8 +13,8 @@
         }
 
         .container {
-            width: 80%;
-            max-width: 600px;
+            width: 30%;
+            max-width: 500px;
             margin: 50px auto;
             background-color: #fff;
             padding: 20px;
@@ -35,9 +35,9 @@
         input[type="submit"] {
             width: 100%;
             padding: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 10px;
             box-sizing: border-box;
         }
 
@@ -63,6 +63,25 @@
             text-align: center;
             margin-top: 20px;
         }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button-container a {
+            display: inline-block;
+            margin-right: 10px;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .button-container a:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -77,8 +96,10 @@
             <input type="submit" value="Login">
         </form>
     </div>
-    <a href="register.php">Register</a>
-    <a href="abc.php">sample-abc</a>
+    <div class="button-container">
+        <a href="register.php">Register</a>
+        <a href="abc.php">Sample-abc</a>
+    </div>
     <div class="new">
         <!-- Additional content can be added here -->
     </div>
